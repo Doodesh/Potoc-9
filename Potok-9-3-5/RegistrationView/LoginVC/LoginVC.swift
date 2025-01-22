@@ -7,20 +7,16 @@
 
 import UIKit
 
-
-protocol LoginVCProtocol: AnyObject {}
-
+protocol LoginVCProtocol: AnyObject {
+    var emailLabel: UITextField { get set }
+    var passwordLabel: UITextField { get set }
+    
+}
 
 class LoginVC: UIViewController, LoginVCProtocol {
 
- 
-    var presenterLogin: LoginPresenterProtocol?
+    var presenterLogin: PresenterLoginVC!
 
-    
-    
-    
-        
-        
         lazy var registLabel: UILabel = {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = "Авторизация"
@@ -30,12 +26,11 @@ class LoginVC: UIViewController, LoginVCProtocol {
         }(UILabel())
         
         
-        lazy var emageLabel = {
+        lazy var emailLabel = {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 20
             $0.layer.masksToBounds = true
-    //        $0.text = "Email"
             $0.font = .systemFont(ofSize: 15)
             $0.placeholder = "Email"
             $0.textColor = .black
@@ -47,7 +42,6 @@ class LoginVC: UIViewController, LoginVCProtocol {
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 20
             $0.layer.masksToBounds = true
-    //        $0.text = "Password"
             $0.font = .systemFont(ofSize: 15)
             $0.placeholder = "Password"
             $0.textColor = .black
@@ -65,24 +59,21 @@ class LoginVC: UIViewController, LoginVCProtocol {
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 20
             return $0
-        }(UIButton())
+        }(UIButton(primaryAction: UIAction { [weak self] _ in
+            guard let self = self else { return }
+            presenterLogin.loginUser()
+    }))
         
         lazy var loginButton: UIButton = {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.setTitle("регистрация", for: .normal)
             $0.setTitleColor(.white, for: .normal)
-     //       $0.backgroundColor = .systemBlue
             $0.layer.cornerRadius = 20
             return $0
-        }(UIButton(primaryAction: actionReg))
-    
-    lazy var actionReg: UIAction = UIAction { [weak self] _ in
-        let VCR = UINavigationController(rootViewController: RegistrationVC())
-        self?.present(VCR, animated: true)
-        
-        NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
-        
-    }
+        }(UIButton(primaryAction:  UIAction { [weak self] _ in
+            guard let self = self else { return }
+            presenterLogin.regVC()
+    }))
 
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -90,7 +81,7 @@ class LoginVC: UIViewController, LoginVCProtocol {
             view.backgroundColor = .black
             view.addSubview(registLabel)
 
-            view.addSubview(emageLabel)
+            view.addSubview(emailLabel)
             view.addSubview(passwordLabel)
             view.addSubview(registButton)
             view.addSubview(loginButton)
@@ -108,12 +99,12 @@ class LoginVC: UIViewController, LoginVCProtocol {
                 registLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
                 
                 
-                emageLabel.topAnchor.constraint(equalTo: registLabel.bottomAnchor, constant: 100),
-                emageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                emageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                emageLabel.heightAnchor.constraint(equalToConstant: 40),
+                emailLabel.topAnchor.constraint(equalTo: registLabel.bottomAnchor, constant: 100),
+                emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                emailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+                emailLabel.heightAnchor.constraint(equalToConstant: 40),
                 
-                passwordLabel.topAnchor.constraint(equalTo: emageLabel.bottomAnchor, constant: 20),
+                passwordLabel.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 20),
                 passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                 passwordLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
                 passwordLabel.heightAnchor.constraint(equalToConstant: 40),

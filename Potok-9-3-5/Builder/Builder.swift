@@ -26,10 +26,10 @@ class Builder {
     }
     
 
-    static func createGreatingVC() -> UIViewController {
-        let vc = GreatingVC()
-        let presenter = PresenterGreatingVC(view: vc)
-        vc.presenterGreating = presenter
+    static func createMainVC() -> UIViewController {
+        let vc = MainVC()
+        let presenter = PresenterMainVC(view: vc)
+        vc.presenterMain = presenter
         return vc
     }
 }

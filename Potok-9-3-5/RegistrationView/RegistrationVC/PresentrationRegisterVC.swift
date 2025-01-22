@@ -9,6 +9,7 @@ import Foundation
 
 protocol RegistrationPresenterProtocol: AnyObject {
     func saveUser()
+    func logVC()
 }
 
 class PresenterRegistrationVC: RegistrationPresenterProtocol {
@@ -19,8 +20,6 @@ class PresenterRegistrationVC: RegistrationPresenterProtocol {
     }
     
     func saveUser() {
-        
-        print(12)
         guard
             let name = self.view?.nameLabel.text, !name.isEmpty,
             let email = self.view?.emailLabel.text, !email.isEmpty,
@@ -32,9 +31,10 @@ class PresenterRegistrationVC: RegistrationPresenterProtocol {
         StorageManager.shared.email = email
         StorageManager.shared.password = password
         
-        
-        NotificationCenter.default.post(name: .register, object: nil, userInfo: ["VC": WindowCase.login])
-        
+        NotificationCenter.default.post(name: .login, object: nil, userInfo: ["VC": WindowCase.main])
+    }
+    func logVC() {
+        NotificationCenter.default.post(name: .login, object: nil, userInfo: ["VC": WindowCase.login] )
     }
     
 }

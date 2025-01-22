@@ -11,12 +11,10 @@ protocol RegistrationVCProtocol: AnyObject {
     var emailLabel: UITextField { get set }
     var passwordLabel: UITextField { get set }
 }
-
 class RegistrationVC: UIViewController, RegistrationVCProtocol {
 
     var presenterRegistration: PresenterRegistrationVC!
 
-    
     lazy var registLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Регистрация"
@@ -30,7 +28,6 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
         $0.layer.masksToBounds = true
-//        $0.text = "Name"
         $0.font = .systemFont(ofSize: 15)
         $0.placeholder = "Name"
         $0.textColor = .black
@@ -42,7 +39,6 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
         $0.layer.masksToBounds = true
-//        $0.text = "Email"
         $0.font = .systemFont(ofSize: 15)
         $0.placeholder = "Email"
         $0.textColor = .black
@@ -54,7 +50,6 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
         $0.layer.masksToBounds = true
-//        $0.text = "Password"
         $0.font = .systemFont(ofSize: 15)
         $0.placeholder = "Password"
         $0.textColor = .black
@@ -77,35 +72,16 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
         presenterRegistration.saveUser()
     })))
     
-//    lazy var action: UIAction = UIAction { [weak self] _ in
-//            guard let self = self else { return }
-//            presenterRegistration.saveUser()
-//        
-//        
-//        
-//        NotificationCenter.default.post(name: .register, object: nil, userInfo: ["name": nameLabel.text ?? "", "email": emailLabel.text ?? "", "password": passwordLabel.text ?? ""])
-//        
-//        
-//
-//                print(5)
-//        
-//        }
-//    
-    
     lazy var loginButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("eсть ник", for: .normal)
         $0.setTitleColor(.white, for: .normal)
- //       $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 20
         return $0
-    }(UIButton(primaryAction: actionLog))
-
-    lazy var actionLog: UIAction = UIAction { [weak self] _ in
-        let VCL = UINavigationController(rootViewController: LoginVC())
-        self?.present(VCL, animated: true)
-        
-    }
+    }(UIButton(primaryAction:  UIAction { [weak self] _ in
+        guard let self = self else { return }
+        presenterRegistration.logVC()
+    }))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,11 +94,7 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
         view.addSubview(registButton)
         view.addSubview(loginButton)
         
-        
         setupConstraints()
-        
-        
-        
     }
 
     func setupConstraints() {
@@ -158,10 +130,6 @@ class RegistrationVC: UIViewController, RegistrationVCProtocol {
             
             ])
     }
-    
-    
-    
-
 }
 
 

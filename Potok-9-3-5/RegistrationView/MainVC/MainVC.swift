@@ -1,5 +1,5 @@
 //
-//  GreatingVC.swift
+//  MainVC.swift
 //  Potok-9-3-5
 //
 //  Created by DOODESH  on 19.01.2025.
@@ -7,24 +7,18 @@
 
 import UIKit
 
-protocol GreatingVCProtocol: AnyObject {}
+protocol MainVCProtocol: AnyObject {}
 
-class GreatingVC: UIViewController, GreatingVCProtocol {
+class MainVC: UIViewController, MainVCProtocol {
     
-    
-    var presenterGreating: GreatingPresenterProtocol?
-
-    
-    
-    
-    
+    var presenterMain: PresenterMainVC?
     let name = StorageManager.shared.name
     let email = StorageManager.shared.email
     let password = StorageManager.shared.password
     
     lazy var registLabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "Привет, \(name)"
+        $0.text = "Привет, \(name ?? "")"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
         $0.textColor = .white
         return $0
@@ -32,7 +26,7 @@ class GreatingVC: UIViewController, GreatingVCProtocol {
     
     lazy var nameLabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "Ваш email: \(email)"
+        $0.text = "Ваш email: \(email ?? "")"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
         $0.textColor = .white
         return $0
@@ -40,13 +34,12 @@ class GreatingVC: UIViewController, GreatingVCProtocol {
     
     lazy var emageLabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "Ваш email: \(email)"
+        $0.text = "Ваш email: \(email ?? "")"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
         $0.textColor = .white
         return $0
     }(UILabel())
     
-
     lazy var loginButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("Выход", for: .normal)
@@ -54,10 +47,10 @@ class GreatingVC: UIViewController, GreatingVCProtocol {
  //       $0.backgroundColor = .systemBlue
         $0.layer.cornerRadius = 20
         return $0
-    }(UIButton(primaryAction: exitBT))
-    
-    lazy var exitBT: UIAction = UIAction { [weak self] _ in
-    }
+    }(UIButton(primaryAction:  UIAction  { [weak self] _ in
+        guard let self = self else { return }
+        presenterMain?.logVC()
+    }))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,11 +61,8 @@ class GreatingVC: UIViewController, GreatingVCProtocol {
         view.addSubview(emageLabel)
 
         view.addSubview(loginButton)
-        
-        
+      
         setupConstraints()
-        
-        
     }
 
     func setupConstraints() {

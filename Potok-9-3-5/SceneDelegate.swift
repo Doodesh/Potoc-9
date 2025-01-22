@@ -8,31 +8,24 @@
 import UIKit
 
 enum WindowCase {
-    case register, login, greating
+    case register, login, main
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-
-    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        
         
         guard let scene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: scene)
         
-        
-        
         self.window?.rootViewController = Builder.createLoginVC()
         self.window?.makeKeyAndVisible()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(windowManager), name: .register, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(windowManager), name: .login, object: nil)
         
     }
-        
         @objc func windowManager(nt: Notification) {
             guard let userInfo = nt.userInfo else { return }
             if let window = userInfo["VC"] as? WindowCase {
@@ -45,15 +38,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let vc = Builder.createLoginVC()
                     self.window?.rootViewController = vc
                     print(2)
-                case .greating:
-                    let vc = Builder.createGreatingVC()
+                case .main:
+                    let vc = Builder.createMainVC()
                     self.window?.rootViewController = vc
                     print(3)
                 }
             }
         }
-        
-    
 }
 extension Notification.Name {
     static let register = Notification.Name("register")
